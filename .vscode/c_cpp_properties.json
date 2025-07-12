@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${default}",
+                "/usr/local/include",
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include",
+                "${workspaceFolder}/include"
+            ],
+            "defines": [],
+            "intelliSenseMode": "macos-clang-arm64"
+        }
+    ],
+    "version": 4
+}
