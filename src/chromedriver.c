@@ -19,6 +19,12 @@ int chromedriver_start(const char *driver_path, int port) {
     }
 
     if (pid == 0) {
+        // Child: redirect stdout/stderr to /dev/null
+        FILE *null = fopen("/dev/null", "w");
+        if (null) {
+            dup2(fileno(null), STDOUT_FILENO);
+            dup2(fileno(null), STDERR_FILENO);
+        }
         char port_arg[32];
         snprintf(port_arg, sizeof(port_arg), "--port=%d", port);
         execlp("chromedriver", "chromedriver", port_arg, (char*)NULL);
