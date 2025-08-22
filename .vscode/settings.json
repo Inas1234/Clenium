@@ -3,6 +3,7 @@
     "*.embeddedhtml": "html",
     "stdlib.h": "c",
     "curl.h": "c",
-    "http_client.h": "c"
+    "http_client.h": "c",
+    "ctime": "c"
   }
 }

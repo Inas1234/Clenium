@@ -5,8 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <unistd.h>
 
-/** Helper: POST JSON and return parsed root. */
 static void *post_json(WDSession *sess, 
                        const char *path, 
                        const char *json_body) 
@@ -23,6 +24,7 @@ static void *post_json(WDSession *sess,
     return root;
 }
 
+// Temporarily modify for debugging
 int wd_new_session(const char *wd_url, WDSession *session) {
     session->endpoint = strdup(wd_url);
 
@@ -240,4 +242,18 @@ int wd_take_screenshot(WDSession *session, char **out_png) {
     }
     *out_png = png;
     return 0;
+}
+
+WDElement* wd_wait_for_element(WDSession* sess, const char* locator, const char* value, int timeout_sec) {
+    time_t start_time = time(NULL);
+    while ((time(NULL) - start_time) < timeout_sec) {
+        WDElement* elem = malloc(sizeof(WDElement));
+        if (wd_find_element(sess, locator, value, elem) == 0) {
+            return elem; // Found it!
+        }
+        free(elem);
+        usleep(500 * 1000); // Wait 500ms before trying again
+    }
+    fprintf(stderr, "Timeout: Element '%s' not found after %d seconds.\n", value, timeout_sec);
+    return NULL; // Timeout reached
 }

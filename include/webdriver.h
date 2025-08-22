@@ -111,4 +111,7 @@ int wd_take_screenshot(WDSession *session, char **out_png);
 int wd_execute_script(WDSession *session, const char *script, void **out_result);
 
 
+WDElement* wd_wait_for_element(WDSession* sess, const char* locator, const char* value, int timeout_sec);
+
+
 #endif // WEBDRIVER_H

@@ -18,25 +18,25 @@ int chromedriver_start(const char *driver_path, int port) {
         return -1;
     }
 
-    if (pid == 0) {
-        // Child: redirect stdout/stderr to /dev/null
-        FILE *null = fopen("/dev/null", "w");
-        if (null) {
-            dup2(fileno(null), STDOUT_FILENO);
-            dup2(fileno(null), STDERR_FILENO);
-        }
+    if (pid == 0) { 
+        
         char port_arg[32];
         snprintf(port_arg, sizeof(port_arg), "--port=%d", port);
-        execlp("chromedriver", "chromedriver", port_arg, (char*)NULL);
-        perror("execl");
+
+        execlp(driver_path, driver_path, port_arg, (char*)NULL);
+        
+        perror("execlp"); 
         exit(1);
     }
 
     cd_pid = pid;
     printf("Started Chromedriver with PID %d\n", cd_pid);
-    return 0;
     
+    sleep(1); 
+    
+    return 0;
 }
+
 int chromedriver_stop(void) {
     if (cd_pid <= 0) {
         fprintf(stderr, "No Chromedriver instance to stop\n");
